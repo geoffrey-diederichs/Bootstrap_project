@@ -1,8 +1,6 @@
 # ifndef PWD_H
 # define PWD_H
 
-
-
 typedef struct s_pwd
 {
   unsigned int key;
