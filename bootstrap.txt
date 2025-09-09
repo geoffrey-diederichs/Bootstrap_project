@@ -1,0 +1,66 @@
+Utilite d une liste chainee
+{
+	avantages
+	{
+		-parcourir plus rapidement la db
+		
+	}
+}
+
+
+
+1. Utiliser une liste chaînée (en RAM)
+Avantages :
+Accès rapide : une fois le fichier déchiffré et les données chargées, retrouver un mot de passe se fait sans relire le fichier (parcours en RAM → beaucoup plus rapide que lecture disque + déchiffrement).
+Manipulation simple : insertion, suppression, modification d’entrées sont faciles → tu modifies seulement la liste, puis tu réécris le fichier en fin de session.
+Flexibilité : tu peux garder en mémoire une version "propre" des données, les trier, les indexer, les afficher, etc.
+
+Inconvénients :
+Consommation mémoire : chaque élément stocke des pointeurs + métadonnées → plus lourd que des lignes de texte dans un fichier.
+Sécurité : les mots de passe en RAM sont en clair pendant toute la durée d’exécution (si quelqu’un dump la mémoire de ton processus, il les verra).
+Volatilité : à chaque arrêt du programme, la liste est détruite → il faut sauvegarder les changements (écriture dans le fichier chiffré), sinon tu perds tout.
+Complexité : gérer une liste chaînée correctement (ajout, suppression, mise à jour, réécriture du fichier) demande plus de code qu’un simple accès direct au fichier.
+
+2. Parcourir directement le fichier à chaque fois
+Avantages :
+Simplicité : pas besoin de structures complexes → tu déchiffres le fichier quand tu as besoin d’un mot de passe, tu cherches la ligne, tu la rends, et c’est fini.
+Sécurité relative : les mots de passe ne restent pas longtemps en mémoire (juste le temps de répondre à une requête).
+Moins de risques de désynchronisation : pas besoin de penser à "sauvegarder avant de quitter" → tu travailles toujours directement sur le fichier.
+
+Inconvénients :
+Performance : chaque recherche implique un déchiffrement (complet ou partiel) + lecture disque → ça devient lent si le fichier grossit.
+Manipulation lourde : ajouter/supprimer/modifier une entrée nécessite de réécrire le fichier en entier.
+Pas de confort : si ton programme doit afficher tous les mots de passe, il va relire et redéchiffrer le fichier systématiquement.
+
+Sauvegarde à la fermeture : tu charges tout en mémoire au lancement, tu travailles sur la liste, et tu réécris le fichier chiffré uniquement quand l’utilisateur quitte.
+Avantage : rapide et fluide pendant la session.
+Inconvénient : si ton programme crash avant la sauvegarde, les dernières modifs sont perdues.
+
+
+
+
+
+
+essayer de recoder une fonction pour cacher les caracteres dans le terminal.
+
+
+pour la g
+
+***Pour eviter les dumps memoires***
+Empêcher les core dumps et ptrace pour ton processus :
+
+setrlimit(RLIMIT_CORE, 0) et prctl(PR_SET_DUMPABLE, 0) (ou équivalent) pour éviter la génération de core dumps.
+
+Bloquer ptrace/attaches si possible (prctl PR_SET_PTRACER / seccomp policies / dropping privilèges).
+***
+
+***ZEROISER LA MEMOIRE POUR EVITER UN DUMP DES BUFFERS APRES UTILISATION***
+
+
+COMMENT SECURISER LE MDP ?
+est ce necesssaire s il y ptrace et une zeroisation ?
+
+ou stocker le master pwd ?
+sera t il initialise a la premiere utilisation du programme ?
+En proposer un en meme temps que la creation du fichier.
+
