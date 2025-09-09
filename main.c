@@ -1,6 +1,6 @@
-#iunclude "pwd.h"
+#include "pwd.h"
 
-
+t_list *head = NULL;
 
 
 
@@ -11,6 +11,7 @@ int main(void)
     {
         create_file();
     }
+    printf("choose option : ADD, SEARCH, MODIFY, DELETE, EXIT");
     /*afficher les options disponibles.*/
     while(1)
     {

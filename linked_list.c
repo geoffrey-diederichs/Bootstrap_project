@@ -11,7 +11,7 @@ int    delete_node(t_list *my_list, char *name)
 
 }
 
-int     delete_list(t_list *my_list)
+int     delete_list(t_list *my_list, char *name)
 {
 
 }

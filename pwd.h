@@ -9,5 +9,10 @@ typedef struct s_list
   unsigned int len;
   char name[1024];
   char password[1024];
-  t_list *next;
+  struct s_list *next;
 } t_list;
+
+
+extern t_list *head;
+
+# endif

@@ -16,6 +16,26 @@ void    add_pwd()
     /*demander le service et pour le mdp
     deux options : generer mdp ou en entrer un*/
     add_node(my_list, name, pwd, true);
+    printf("password added successfully");
+}
+
+void    search_pwd()
+{
+    /*demander le mdp de quel service veut il*/;
+    t_list *node = search_node(t_list *my_list);
+    if(node == NULL)
+    {
+        printf("il n existe pas de mdp pour %s", buffer);
+        return ;
+    }
+    /*fonction qui dechiffre le mdp et le print*/;
+}
+
+void    delete_pwd()
+{
+    /*demander le nom du service que l on veut supprimer*/
+    delete_node(buffer);
+
 }
 
 int     input_handler(char *buffer)
