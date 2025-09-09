@@ -1,7 +1,8 @@
-#iunclude "pwd.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "pwd.h"
 
-
-
+/*
 int input_handler(char *buffer)
 {
     if(buffer == "ADD")
@@ -18,12 +19,15 @@ int input_handler(char *buffer)
         modify
     else
         return (1);
-
-
 }
+*/
 
 int main(void)
 {
+    printf("%s\n", "Hello world!");
+    exit(3);
+
+    /*
     char buffer[1024];
     if (my_open(secret.csv))
     {
@@ -38,4 +42,5 @@ int main(void)
             my_printf("bad input");
         }
     }
+        */
 }

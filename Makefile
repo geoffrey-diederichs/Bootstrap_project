@@ -16,6 +16,9 @@ start:
 libc:
 	@echo -ne " [*] Building libc\n"
 	mkdir -p ./build/src
+	gcc -c $(CFLAGS) ./src/libc/unistd.c -o ./build/src/unistd.o
+	gcc -c $(CFLAGS) ./src/libc/stdio.c -o ./build/src/stdio.o
+	gcc -c $(CFLAGS) ./src/libc/stdlib.c -o ./build/src/stdlib.o
 	@echo -ne " [+] Done\n\n"
 
 main:
