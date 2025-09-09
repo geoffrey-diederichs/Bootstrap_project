@@ -1,5 +1,27 @@
 #iunclude "pwd.h"
 
+
+
+int input_handler(char *buffer)
+{
+    if(buffer == "ADD")
+    {
+        add_pwd();
+    }
+    else if (buffer == "SEARCH")
+        search_pwd();
+    else if (buffer == "DELETE")
+        delete_pwd();
+    else if (buffer == "EXIT")
+        exit_pwd();
+    else if (buffer == "MODIFY")
+        modify
+    else
+        return (1);
+
+
+}
+
 int main(void)
 {
     char buffer[1024];
@@ -9,7 +31,11 @@ int main(void)
     }
     while(1)
     {
+        my_ptrace();
         buffer = read_line(0) || get_next_line(0);
-        if()
+        if (input_handler(buffer))
+        {
+            my_printf("bad input");
+        }
     }
 }
