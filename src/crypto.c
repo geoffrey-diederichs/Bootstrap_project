@@ -1,25 +1,24 @@
-#include "stdio.h"
+#include "crypto.h"
+#include <stdio.h>
 
-int cypher(char *data, int data_len, const char key, int key_len) {
-    int data_index, key_index;
-    for (data_index = 0; data_index < size; data_index++) {
-        printf("Before: %c\n", *data);
-        *data = *data ^ *key;
-        printf("After: %c\n", *data);
-        data++;
-        
+int cypher(char *src, char *dst, int data_len, char *key, int key_len) {
+    for (int i = 0; i < data_len; i++) {
+        dst[i] = src[i] ^ key[i%key_len];
     }
     return 0;
 }
 
-int decypher(char *data, const char *key, int size) {
-    return 0;
+int calculate_signature(char *data, int size) {
+    long long sum = 0;
+    for (int i = 0; i < size; i++) {
+        sum = (sum + data[i]) % 10000;
+    }
+    return sum;
 }
 
-int calculate_key(char *data, int size) {
-    return 0;
-}
-
-int verify_key(char *data, int size, int key) {
-    return 0;
+bool verify_signature(char *data, int size, int key) {
+    if (calculate_signature(data, size) == key) {
+        return true;
+    }
+    return false;
 }
