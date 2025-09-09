@@ -31,3 +31,17 @@ ssize_t read(int fd, void *buf, size_t count) {
     
     return ret;
 }
+
+int close(int fd) {
+    long ret;
+    __asm__ volatile (
+        "mov %1, %%rdi\n" // fd
+        "mov $3, %%rax\n" // syscall: close
+        "syscall\n"
+        : "=a"(ret)
+        : "r"((long)fd)
+        : "rdi"
+    );
+
+    return ret;
+}
