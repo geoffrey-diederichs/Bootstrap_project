@@ -14,7 +14,7 @@ _start:
     mov     rdi, rax
     xor     rax, rax                ; Not to signal the error
     cmp     rdi, 0
-    jne _exit
+    ;jne _exit
 
     ; Retrieve argc, argv, envp from stack
     mov     rdi, [rsp]             ; argc

@@ -21,12 +21,13 @@ libc:
 	gcc -c $(CFLAGS) ./src/libc/stdlib.c -o ./build/src/stdlib.o
 	gcc -c $(CFLAGS) ./src/libc/fcntl.c -o ./build/src/fcntl.o
 	gcc -c $(CFLAGS) ./src/libc/sys/ptrace.c -o ./build/src/ptrace.o
-	gcc -c $(CFLAGS) ./src/libc/sys/string.c -o ./build/src/string.o
+	gcc -c $(CFLAGS) ./src/libc/string.c -o ./build/src/string.o
 	@echo " [+] Done\n\n"
 
 main:
 	@echo " [*] Building main"
 	mkdir -p ./build/src
+	gcc -c $(CFLAGS) ./src/file_handler.c -o ./build/src/file_handler.o
 	gcc -c $(CFLAGS) ./src/crypto.c -o ./build/src/crypto.o
 	gcc -c $(CFLAGS) ./src/main.c -o ./build/src/main.o
 	@echo " [+] Done\n\n"
