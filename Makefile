@@ -21,6 +21,7 @@ libc:
 	gcc -c $(CFLAGS) ./src/libc/stdlib.c -o ./build/src/stdlib.o
 	gcc -c $(CFLAGS) ./src/libc/fcntl.c -o ./build/src/fcntl.o
 	gcc -c $(CFLAGS) ./src/libc/sys/ptrace.c -o ./build/src/ptrace.o
+	gcc -c $(CFLAGS) ./src/libc/sys/string.c -o ./build/src/string.o
 	@echo " [+] Done\n\n"
 
 main:
