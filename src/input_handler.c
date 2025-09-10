@@ -1,55 +1,105 @@
+#include "pwd.h"
 
-
-void    add_pwd()
+int add_pwd(t_list **my_list)
 {
-    static t_list   *my_list = NULL;
-    t_list  *last;
-    if (!my_list)
+    char name[1024];
+    char pwd[1024];
+
+    printf("Enter service name: ");
+    if (!fgets(name, sizeof(name), stdin))
+        return 1;
+    name[strcspn(name, "\n")] = '\0';
+
+    printf("Enter password (or leave empty to generate): ");
+    if (!fgets(pwd, sizeof(pwd), stdin))
+        return 1;
+    pwd[strcspn(pwd, "\n")] = '\0';
+
+    if (strlen(pwd) == 0)
     {
-        my_list = my_malloc(sizeof(t_list));
-        if(!my_list)
-            /*gerer ce cas d erreur*/;
-        /*demander le service et le mdp associe*/
+        if (generate_password(pwd, 20) != 0)
+        {
+            printf("Failed to generate password\n");
+            return 1;
+        }
     }
-    last = find_last(my_list);
-    
-    /*demander le service et pour le mdp
-    deux options : generer mdp ou en entrer un*/
+
     add_node(my_list, name, pwd, true);
-    printf("password added successfully");
+    printf("Password for '%s' added successfully\n", name);
+    return 0;
 }
 
-void    search_pwd()
+void modify_pwd(t_list *my_list)
 {
-    /*demander le mdp de quel service veut il*/;
-    t_list *node = search_node(t_list *my_list, name);
-    if(node == NULL)
+    char service[1024];
+    char new_pwd[1024];
+
+    printf("Enter the service name to modify: ");
+    if (!fgets(service, sizeof(service), stdin))
+        return;
+    service[strcspn(service, "\n")] = '\0';
+
+    t_list *node = search_node(my_list, service);
+    if (!node)
     {
-        printf("il n existe pas de mdp pour %s", buffer);
-        return ;
+        printf("No password found for service %s\n", service);
+        return;
     }
-    /*fonction qui dechiffre le mdp et le print*/;
+
+    printf("Enter the new password: ");
+    if (!fgets(new_pwd, sizeof(new_pwd), stdin))
+        return;
+    new_pwd[strcspn(new_pwd, "\n")] = '\0';
+
+    ft_bzero(node->pwd, sizeof(node->pwd));
+    cypher(new_pwd, node->pwd, strlen(new_pwd), itoa(calculate_signature()));
+    printf("Password updated successfully\n");
 }
 
-void    delete_pwd()
+void search_pwd(t_list *my_list)
 {
-    /*demander le nom du service que l on veut supprimer*/
-    delete_node(buffer);
+    char service[1024];
 
+    printf("Service ? ");
+    if (!fgets(service, sizeof(service), stdin))
+        return;
+    service[strcspn(service, "\n")] = '\0';
+
+    t_list *node = search_node(my_list, service);
+    if (!node)
+    {
+        printf("No password found for %s\n", service);
+        return;
+    }
+
+    cypher(node->pwd, node->pwd, node->len, itoa(node->key)); // déchiffre
+    printf("Password: %s\n", node->pwd);
+    cypher(node->pwd, node->pwd, node->len, itoa(node->key)); // rechiffre
 }
 
-int input_handler(char *buffer)
+void delete_pwd(t_list **my_list)
 {
-    if (ft_strncmp(buffer, "ADD", 3) == 0 && buffer[3] == '\0')
-        add_pwd();
-    else if (ft_strncmp(buffer, "SEARCH", 6) == 0 && buffer[6] == '\0')
-        search_pwd();
-    else if (ft_strncmp(buffer, "DELETE", 6) == 0 && buffer[6] == '\0')
-        delete_pwd();
-    else if (ft_strncmp(buffer, "EXIT", 4) == 0 && buffer[4] == '\0')
-        exit_pwd();
-    else if (ft_strncmp(buffer, "MODIFY", 6) == 0 && buffer[6] == '\0')
-        modify_pwd();
+    char service[1024];
+    printf("Service to delete: ");
+    if (!fgets(service, sizeof(service), stdin))
+        return;
+    service[strcspn(service, "\n")] = '\0';
+
+    delete_node(my_list, service);
+}
+
+int input_handler(t_list **my_list, const char *buffer)
+{
+    if (strcmp(buffer, "ADD") == 0)
+        return add_pwd(my_list);
+    else if (strcmp(buffer, "SEARCH") == 0)
+        search_pwd(*my_list);
+    else if (strcmp(buffer, "DELETE") == 0)
+        delete_pwd(my_list);
+    else if (strcmp(buffer, "EXIT") == 0)
+        return 0;
+    else if (strcmp(buffer, "MODIFY") == 0)
+        modify_pwd(*my_list);
     else
         return 1;
     return 0;

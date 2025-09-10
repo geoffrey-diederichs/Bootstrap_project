@@ -1,26 +1,34 @@
 #include "pwd.h"
 
-t_list *head = NULL;
-
-
-
 int main(void)
 {
+    t_list *head = NULL;
     char buffer[1024];
-    if (open(secret.csv))
-    {
+    int fd = open("secret.csv", O_RDONLY);
+
+    if (fd == -1)
         create_file();
-    }
-    printf("choose option : ADD, SEARCH, MODIFY, DELETE, EXIT");
-    /*afficher les options disponibles.*/
-    while(1)
+    else
+        create_linked_list(&head);
+
+    printf("choose option : ADD, SEARCH, MODIFY, DELETE, EXIT\n");
+
+    while (1)
     {
-        my_ptrace();
-        getline(buffer, 1024,);
-        if (strncmp(buffer, "EXIT", 4) && buffer[4] == '\0')
+        printf("> ");
+        if (!fgets(buffer, sizeof(buffer), stdin))
             break;
-        if (input_handler(buffer))
-            printf("bad input");
+
+        buffer[strcspn(buffer, "\n")] = '\0';
+
+        if (strcmp(buffer, "EXIT") == 0)
+            break;
+
+        if (input_handler(&head, buffer))
+            printf("bad input\n");
     }
+
+    delete_list(&head);
     clean_all();
+    return 0;
 }

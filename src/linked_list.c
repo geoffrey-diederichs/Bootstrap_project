@@ -1,99 +1,100 @@
-
 #include "pwd.h"
 
-int     modify_node(t_list *my_list, char *name)
+void ft_bzero(void *s, size_t n)
 {
-    /*retrouver le nom du service et demander par quoi
-    veut on le modifier. P-e le rechiffrer derriere.*/
+    size_t i;
+    for (i = 0; i < n; i++)
+        ((unsigned char *)s)[i] = '\0';
 }
 
-void	ft_bzero(void *s, size_t n)
+t_list *find_last(t_list *my_list)
 {
-	int	i;
-
-	i = -1;
-	if (n > 0)
-	{
-		while ((size_t)++i < n)
-		{
-			*(unsigned char*)(s + i) = '\0';
-		}
-	}
+    if (!my_list)
+        return NULL;
+    while (my_list->next)
+        my_list = my_list->next;
+    return my_list;
 }
 
-
-int    delete_node(t_list *my_list, char *name)
+t_list *search_node(t_list *my_list, const char *name)
 {
-    t_list *tmp = my_list;
+    while (my_list)
+    {
+        if (strcmp(my_list->name, name) == 0)
+            return my_list;
+        my_list = my_list->next;
+    }
+    return NULL;
+}
+
+int add_node(t_list **my_list, const char *name, const char *pwd, bool generate)
+{
+    t_list *new = malloc(sizeof(t_list));
+    if (!new)
+    {
+        perror("malloc");
+        return 1;
+    }
+
+    strncpy(new->name, name, sizeof(new->name)-1);
+    new->name[sizeof(new->name)-1] = '\0';
+    strncpy(new->pwd, pwd, sizeof(new->pwd)-1);
+    new->pwd[sizeof(new->pwd)-1] = '\0';
+    new->len = strlen(pwd);
+    new->key = calculate_signature(new->pwd, new->len);
+    new->next = NULL;
+
+    if (*my_list == NULL)
+    {
+        *my_list = new;
+    }
+    else
+    {
+        t_list *last = find_last(*my_list);
+        last->next = new;
+    }
+    return 0;
+}
+
+int delete_node(t_list **my_list, const char *name)
+{
+    t_list *tmp = *my_list;
     t_list *prev = NULL;
-    
+
     while (tmp && strcmp(tmp->name, name))
     {
         prev = tmp;
         tmp = tmp->next;
     }
-    if (tmp == NULL)
+    if (!tmp)
     {
         printf("Can't find the service\n");
-        return (1);
+        return 1;
     }
-    ft_bzero(tmp.pwd, ft_strlen(tmp.pwd));
-    if (prev == NULL)
+
+    ft_bzero(tmp->pwd, strlen(tmp->pwd));
+    if (!prev)
         *my_list = tmp->next;
     else
         prev->next = tmp->next;
-    free(tmp);
-    return (0);
 
+    free(tmp);
+    return 0;
 }
 
-int     delete_list(t_list *my_list, char *name)
+int delete_list(t_list **my_list)
 {
-    t_list *tmp = my_list;
-    t_list *next = NULL;
+    t_list *tmp = *my_list;
+    t_list *next;
+
     while (tmp)
     {
-        ft_bzero(tmp.pwd, ft_strlen(tmp.pwd));
+        ft_bzero(tmp->pwd, strlen(tmp->pwd));
         next = tmp->next;
         free(tmp);
         tmp = next;
     }
-    return (0);
-}
 
-t_list *search_node(t_list* my_list, char *name)
-{
-    t_list *tmp = my_list;
-
-    while(tmp)
-    {
-        if (strncmp(tmp->name, name) && )
-    }
-}
-
-int     add_node(t_list *my_list, char *name, char *pwd, bool generate)
-{
-    t_list *last = find_last(my_list);
-    t_list *new = malloc(sizeof(t_list));
-    if (!new)
-    {
-        printf("error malloc");
-        return (1);
-    }
-
-    ft_strncpy(new->name, name, 1024);
-    ft_strncpy(new->pwd, pwd, 1024);
-    new->next = NULL;
-    last->next = new;
-    return (0);
-}
-
-t_list  *find_last(t_list *my_list)
-{
-    t_list *tmp = my_list;
-    while (tmp->next)
-    {
-        tmp = tmp->next;
-    }
-    return (tmp);
+    *my_list = NULL;
+    return 0;
 }
