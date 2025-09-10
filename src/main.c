@@ -1,14 +1,3 @@
-#include "file_handler.h"
-#include "stdio.h"
-
-int main(void) {
-    char *buf = open_db(db_name);
-    puts(buf);
-    return 0;
-}
-
-
-/*
 #include "pwd.h"
 
 int main(void)
@@ -43,4 +32,3 @@ int main(void)
     clean_all();
     return 0;
 }
-*/
