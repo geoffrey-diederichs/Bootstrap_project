@@ -1,4 +1,4 @@
-CFLAGS := -fno-stack-protector -fno-builtin -I ./include/libc -I ./include
+CFLAGS := -fno-stack-protector -fno-builtin -I ./include/libc -I ./include -nostdinc -ffreestanding
 
 all: binary
 clean:
