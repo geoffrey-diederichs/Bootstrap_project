@@ -20,6 +20,7 @@ libc:
 	gcc -c $(CFLAGS) ./src/libc/stdio.c -o ./build/src/stdio.o
 	gcc -c $(CFLAGS) ./src/libc/stdlib.c -o ./build/src/stdlib.o
 	gcc -c $(CFLAGS) ./src/libc/fcntl.c -o ./build/src/fcntl.o
+	gcc -c $(CFLAGS) ./src/libc/sys/ptrace.c -o ./build/src/ptrace.o
 	@echo " [+] Done\n\n"
 
 main:
