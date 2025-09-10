@@ -1,7 +1,26 @@
 #include "pwd.h"
 
+void handler(void) { 
+    puts("Handler called\n"); 
+    exit(-1);
+}
+
 int main(void)
 {
+    struct sigaction sa;
+    sa.sa_handler = handler;
+    sa.sa_flags = 0;
+    sa.sa_restorer = NULL;
+    sa.sa_mask = 0;
+    
+    sigaction(2, &sa, 0); // 2 == SIGINT
+    
+    // To test ctrl+c
+    char buf[10];
+    read(0, buf, 10);
+    
+    return 0;
+
     t_list *head = NULL;
     char buffer[1024];
     int fd = open("vault.db", O_RDONLY);
