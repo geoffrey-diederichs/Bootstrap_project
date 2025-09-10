@@ -20,7 +20,9 @@ int main(void)
     read(0, buf, 10);
     
     return 0;
+}
 
+/*
     t_list *head = NULL;
     char buffer[1024];
     int fd = open("vault.db", O_RDONLY);
@@ -47,8 +49,9 @@ int main(void)
             printf("bad input\n");
     }
     /*reecrire dans le fichier a la toute fin.
-    probleme qui se pose: si l utilisateur fait un ctrl+C*/
+    probleme qui se pose: si l utilisateur fait un ctrl+C*//*
     put_on_the_file(head, "secret.csv");
     delete_list(&head);
     return 0;
 }
+*/
