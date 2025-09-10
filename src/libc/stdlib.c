@@ -54,7 +54,7 @@ void *realloc(void *ptr, size_t size)
 {
 	void *new_pointer;
 
-	new_pointer = my_malloc(size);
+	new_pointer = malloc(size);
 	strncpy(ptr, new_pointer, size); // will copy more than the original
 	return (new_pointer);
 }
