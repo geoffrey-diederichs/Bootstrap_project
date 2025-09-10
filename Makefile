@@ -30,6 +30,10 @@ main:
 	gcc -c $(CFLAGS) ./src/file_handler.c -o ./build/src/file_handler.o
 	gcc -c $(CFLAGS) ./src/crypto.c -o ./build/src/crypto.o
 	gcc -c $(CFLAGS) ./src/main.c -o ./build/src/main.o
+	gcc -c $(CFLAGS) ./src/create_linked_list.c -o ./build/src/create_linked_list.o
+	gcc -c $(CFLAGS) ./src/input_handler.c -o ./build/src/input_handler.o
+	gcc -c $(CFLAGS) ./src/linked_list.c -o ./build/src/linked_list.o
+	gcc -c $(CFLAGS) ./src/signal_handler.c -o ./build/src/signal_handler.o
 	@echo " [+] Done\n\n"
 
 binary: start libc main

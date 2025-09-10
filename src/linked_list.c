@@ -29,7 +29,7 @@ t_list *search_node(t_list *my_list, const char *name)
 
 int add_node(t_list **my_list, const char *name, const char *pwd, bool generate)
 {
-    t_list *new = malloc(sizeof(t_list));
+    t_list *new = my_malloc(sizeof(t_list));
     if (!new)
     {
         perror("malloc");

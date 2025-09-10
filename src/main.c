@@ -4,12 +4,12 @@ int main(void)
 {
     t_list *head = NULL;
     char buffer[1024];
-    int fd = open("secret.csv", O_RDONLY);
+    int fd = open("vault.db", O_RDONLY);
 
     if (fd == -1)
         create_file();
     else
-        create_linked_list(&head);
+        head = create_linked_list("vault.db");
 
     printf("choose option : ADD, SEARCH, MODIFY, DELETE, EXIT\n");
 
@@ -27,8 +27,9 @@ int main(void)
         if (input_handler(&head, buffer))
             printf("bad input\n");
     }
-
+    /*reecrire dans le fichier a la toute fin.
+    probleme qui se pose: si l utilisateur fait un ctrl+C*/
+    put_on_the_file(head, "secret.csv");
     delete_list(&head);
-    clean_all();
     return 0;
 }
