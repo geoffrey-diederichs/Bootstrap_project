@@ -1,31 +1,6 @@
-#include "stdio.h"
-#include "stdlib.h"
-#include "unistd.h"
-#include "signal.h"
+#include "pwd.h"
 
-void handler(int sig) {
-    puts("Handler called\n"); 
-    exit(-1);
-}
-
-int main(void)
-{
-    struct sigaction sa;
-    sa.sa_handler = handler;
-    sa.sa_flags = 0;
-    sa.sa_restorer = NULL;
-    sa.sa_mask = 0;
-    
-    sigaction(2, &sa, 0); // 2 == SIGINT
-    
-    // To test ctrl+c
-    char buf[10];
-    read(0, buf, 10);
-    
-    return 0;
-}
-
-/*
+void main(void) {
     t_list *head = NULL;
     char buffer[1024];
     int fd = open("vault.db", O_RDONLY);
@@ -52,9 +27,39 @@ int main(void)
             printf("bad input\n");
     }
     /*reecrire dans le fichier a la toute fin.
-    probleme qui se pose: si l utilisateur fait un ctrl+C*//*
+    probleme qui se pose: si l utilisateur fait un ctrl+C*/
     put_on_the_file(head, "secret.csv");
     delete_list(&head);
+    return 0;
+}
+
+/*
+// Unsuccessful tests to try and handle SIGINT
+
+#include "stdio.h"
+#include "stdlib.h"
+#include "unistd.h"
+#include "signal.h"
+
+void handler(int sig) {
+    puts("Handler called\n"); 
+    exit(-1);
+}
+
+int main(void)
+{
+    struct sigaction sa;
+    sa.sa_handler = handler;
+    sa.sa_flags = 0;
+    sa.sa_restorer = NULL;
+    sa.sa_mask = 0;
+    
+    sigaction(2, &sa, 0); // 2 == SIGINT
+    
+    // To test ctrl+c
+    char buf[10];
+    read(0, buf, 10);
+    
     return 0;
 }
 */
