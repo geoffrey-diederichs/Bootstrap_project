@@ -1,4 +1,5 @@
 #include "unistd.h"
+#include "sys/ptrace.h"
 
 ssize_t write(int fd, const void *str, size_t len) {
     long ret;
