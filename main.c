@@ -7,7 +7,7 @@ t_list *head = NULL;
 int main(void)
 {
     char buffer[1024];
-    if (my_open(secret.csv))
+    if (open(secret.csv))
     {
         create_file();
     }
@@ -16,8 +16,8 @@ int main(void)
     while(1)
     {
         my_ptrace();
-        read_line(0, buffer) || get_next_line(0);
-        if (buffer == "EXIT")
+        getline(buffer, 1024,);
+        if (strncmp(buffer, "EXIT", 4) && buffer[4] == '\0')
             break;
         if (input_handler(buffer))
             printf("bad input");

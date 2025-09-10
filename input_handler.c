@@ -22,7 +22,7 @@ void    add_pwd()
 void    search_pwd()
 {
     /*demander le mdp de quel service veut il*/;
-    t_list *node = search_node(t_list *my_list);
+    t_list *node = search_node(t_list *my_list, name);
     if(node == NULL)
     {
         printf("il n existe pas de mdp pour %s", buffer);
@@ -38,20 +38,19 @@ void    delete_pwd()
 
 }
 
-int     input_handler(char *buffer)
+int input_handler(char *buffer)
 {
-    if(buffer == "ADD")
+    if (ft_strncmp(buffer, "ADD", 3) == 0 && buffer[3] == '\0')
         add_pwd();
-    else if (buffer == "SEARCH")
+    else if (ft_strncmp(buffer, "SEARCH", 6) == 0 && buffer[6] == '\0')
         search_pwd();
-    else if (buffer == "DELETE")
+    else if (ft_strncmp(buffer, "DELETE", 6) == 0 && buffer[6] == '\0')
         delete_pwd();
-    else if (buffer == "EXIT")
+    else if (ft_strncmp(buffer, "EXIT", 4) == 0 && buffer[4] == '\0')
         exit_pwd();
-    else if (buffer == "MODIFY")
+    else if (ft_strncmp(buffer, "MODIFY", 6) == 0 && buffer[6] == '\0')
         modify_pwd();
     else
-        return (1);
-
-
+        return 1;
+    return 0;
 }

@@ -1,9 +1,10 @@
 #ifndef _CRYPTO_H
 #define _CRYPTO_H
 
-int cypher(char *data, const char *key, int size);
-int decypher(char *data, const char *key, int size);
-int calculate_key(char *data, int size);
-int verify_key(char *data, int size, int key);
+#include "stdbool.h"
+
+int cypher(char *src, char *dst, int data_len, char *key, int key_len);
+int calculate_signature(char *data, int size);
+bool verify_signature(char *data, int size, int key);
 
 #endif
