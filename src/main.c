@@ -1,6 +1,9 @@
-#include "pwd.h"
+#include "stdio.h"
+#include "stdlib.h"
+#include "unistd.h"
+#include "signal.h"
 
-void handler(void) { 
+void handler(int sig) {
     puts("Handler called\n"); 
     exit(-1);
 }

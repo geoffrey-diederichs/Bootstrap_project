@@ -22,6 +22,7 @@ libc:
 	gcc -c $(CFLAGS) ./src/libc/fcntl.c -o ./build/src/fcntl.o
 	gcc -c $(CFLAGS) ./src/libc/sys/ptrace.c -o ./build/src/ptrace.o
 	gcc -c $(CFLAGS) ./src/libc/string.c -o ./build/src/string.o
+	gcc -c $(CFLAGS) ./src/libc/signal.c -o ./build/src/signal.o
 	@echo " [+] Done\n\n"
 
 main:
@@ -30,9 +31,6 @@ main:
 	gcc -c $(CFLAGS) ./src/file_handler.c -o ./build/src/file_handler.o
 	gcc -c $(CFLAGS) ./src/crypto.c -o ./build/src/crypto.o
 	gcc -c $(CFLAGS) ./src/main.c -o ./build/src/main.o
-	gcc -c $(CFLAGS) ./src/create_linked_list.c -o ./build/src/create_linked_list.o
-	gcc -c $(CFLAGS) ./src/input_handler.c -o ./build/src/input_handler.o
-	gcc -c $(CFLAGS) ./src/linked_list.c -o ./build/src/linked_list.o
 	gcc -c $(CFLAGS) ./src/signal_handler.c -o ./build/src/signal_handler.o
 	@echo " [+] Done\n\n"
 
