@@ -12,7 +12,7 @@ _start:
 
     ; Exits if the program is being debugged
     mov     rdi, rax
-    xor     rax, rax ; Not to signal the error
+    xor     rax, rax                ; Not to signal the error
     cmp     rdi, 0
     jne _exit
 
