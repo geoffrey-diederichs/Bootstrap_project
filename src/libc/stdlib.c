@@ -1,4 +1,5 @@
 #include "stdlib.h"
+#include "string.h"
 
 [[noreturn]] void exit(int status) {
     __asm__ volatile (
@@ -47,6 +48,15 @@ void *malloc(size_t size)
 {
 	size = size + (8 - (size % 8)); // memory alignment on 8 bytes
 	return (sbrk(size));
+}
+
+void *realloc(void *ptr, size_t size)
+{
+	void *new_pointer;
+
+	new_pointer = my_malloc(size);
+	strncpy(ptr, new_pointer, size); // will copy more than the original
+	return (new_pointer);
 }
 
 void free(void)
