@@ -2,7 +2,7 @@
 
 t_list *create_linked_list(const char *filename)
 {
-    int fd = open(filename, O_RDONLY);
+    int fd = open(filename, O_RDONLY, 0);
     if (fd < 0)
         return NULL;
 
@@ -30,7 +30,7 @@ t_list *create_linked_list(const char *filename)
         idx = 0;
         while ((c = read(fd, &tmp_buf[idx], 1)) == 1 && tmp_buf[idx] != ' ' && idx < 1023)
             idx++;
-        if (c != 1) { free(node); break; } // EOF
+        if (c != 1) { /*free(node);*/ break; } // EOF
         tmp_buf[idx] = '\0';
         strcpy(node->name, tmp_buf);
 
@@ -38,7 +38,7 @@ t_list *create_linked_list(const char *filename)
         idx = 0;
         while ((c = read(fd, &tmp_buf[idx], 1)) == 1 && tmp_buf[idx] != ' ' && idx < 31)
             idx++;
-        if (c != 1) { free(node); break; }
+        if (c != 1) { /*free(node);*/ break; }
         tmp_buf[idx] = '\0';
         node->key = atoi(tmp_buf);
 
@@ -46,7 +46,7 @@ t_list *create_linked_list(const char *filename)
         idx = 0;
         while ((c = read(fd, &tmp_buf[idx], 1)) == 1 && tmp_buf[idx] != ' ' && idx < 31)
             idx++;
-        if (c != 1) { free(node); break; }
+        if (c != 1) { /*free(node);*/ break; }
         tmp_buf[idx] = '\0';
         node->len = atoi(tmp_buf);
 
@@ -79,31 +79,35 @@ t_list *create_linked_list(const char *filename)
     return head;
 }
 
-void    put_on_the_file(t_list *my_list, const char *file)
+
+void put_on_the_file(t_list *my_list, const char *file)
 {
     t_list *tmp = my_list;
-    char    buf[32];
+    char *str;
 
-    unlink(file);
+    //unlink(file);
     int fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-    if (fd < 0)
-        return ;
-    while(tmp)
+    if (fd < 0) {
+        printf("open");
+        return;
+    }
+    
+    while (tmp)
     {
-        write (fd, tmp->name, strlen(tmp->name));
-        write (fd, " ", 1);
-        itoa(tmp->key, buf, 10);
-        write (fd, buf, strlen(buf));
-        write (fd, " ", 1);
-        ft_bzero(buf, sizeof(buf));
-        itoa(tmp->len, buf, 10);
-        write (fd, buf, strlen(buf));
-        ft_bzero(buf, sizeof(buf));
-        write (fd, " ", 1);
-        write (fd, tmp->password, tmp->len);
+        write(fd, tmp->name, strlen(tmp->name));
+        write(fd, " ", 1);
+
+        str = itoa(tmp->key);   // ton itoa(int n) retourne une chaîne
+        write(fd, str, strlen(str));
+        write(fd, " ", 1);
+
+        str = itoa(tmp->len);
+        write(fd, str, strlen(str));
+        write(fd, " ", 1);
+
+        write(fd, tmp->password, tmp->len);
+
         tmp = tmp->next;
     }
     close(fd);
-    ft_bzero(buf, sizeof(buf));
-    /*le processus inverse qd on veut reecrire dans le fichier.*/
 }

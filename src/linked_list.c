@@ -7,6 +7,23 @@ void ft_bzero(void *s, size_t n)
         ((unsigned char *)s)[i] = '\0';
 }
 
+void	*memset(void *s, int c, size_t n)
+{
+	size_t			i;
+	unsigned char	*ptr;
+
+	i = 0;
+	ptr = (unsigned char *)s;
+	while (i < n)
+	{
+		*ptr = (unsigned char)c;
+		i++;
+		ptr++;
+	}
+	return (s);
+}
+
+
 t_list *find_last(t_list *my_list)
 {
     if (!my_list)
@@ -27,21 +44,22 @@ t_list *search_node(t_list *my_list, const char *name)
     return NULL;
 }
 
-int add_node(t_list **my_list, const char *name, const char *pwd, bool generate)
+int add_node(t_list **my_list, char *name, char *password, bool generate)
 {
-    t_list *new = my_malloc(sizeof(t_list));
+    t_list *new = malloc(sizeof(t_list));
     if (!new)
     {
-        perror("malloc");
+        printf("malloc");
         return 1;
     }
+    memset(new, 0, sizeof(t_list));
 
-    strncpy(new->name, name, sizeof(new->name)-1);
-    new->name[sizeof(new->name)-1] = '\0';
-    strncpy(new->pwd, pwd, sizeof(new->pwd)-1);
-    new->pwd[sizeof(new->pwd)-1] = '\0';
-    new->len = strlen(pwd);
-    new->key = calculate_signature(new->pwd, new->len);
+    strncpy(name, new->name, sizeof(name)-1);
+    new->name[strlen(new->name)] = '\0';
+    strncpy(password, new->password, sizeof(new->password)-1);
+    new->password[strlen(new->password)] = '\0';
+    new->len = strlen(password);
+    new->key = calculate_signature(new->password, new->len);
     new->next = NULL;
 
     if (*my_list == NULL)
@@ -53,6 +71,9 @@ int add_node(t_list **my_list, const char *name, const char *pwd, bool generate)
         t_list *last = find_last(*my_list);
         last->next = new;
     }
+    char *key_str = itoa(new->key);
+    cypher(new->password, new->password, new->len, key_str, strlen(key_str));
+    //printf("DEBUG: Added service: '%s', password: '%s'\n", new->name, new->password);
     return 0;
 }
 
@@ -72,13 +93,13 @@ int delete_node(t_list **my_list, const char *name)
         return 1;
     }
 
-    ft_bzero(tmp->pwd, strlen(tmp->pwd));
+    ft_bzero(tmp->password, strlen(tmp->password));
     if (!prev)
         *my_list = tmp->next;
     else
         prev->next = tmp->next;
 
-    free(tmp);
+    //free(tmp);
     return 0;
 }
 
@@ -89,9 +110,9 @@ int delete_list(t_list **my_list)
 
     while (tmp)
     {
-        ft_bzero(tmp->pwd, strlen(tmp->pwd));
+        ft_bzero(tmp->password, strlen(tmp->password));
         next = tmp->next;
-        free(tmp);
+        //free(tmp);
         tmp = next;
     }
 

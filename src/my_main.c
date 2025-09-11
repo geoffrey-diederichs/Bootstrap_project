@@ -1,6 +1,5 @@
 #include "pwd.h"
 
-
 int main(void)
 {
     t_list *head = NULL;
@@ -30,40 +29,7 @@ int main(void)
     }
     /*reecrire dans le fichier a la toute fin.
     probleme qui se pose: si l utilisateur fait un ctrl+C*/
-    put_on_the_file(head, "vault.db");
-    //save_db("vault.db", "OEEEEEEEEE", 10);
+    put_on_the_file(head, "secret.csv");
     delete_list(&head);
-    free();
     return 0;
 }
-
-/*
-// Unsuccessful tests to try and handle SIGINT
-
-#include "stdio.h"
-#include "stdlib.h"
-#include "unistd.h"
-#include "signal.h"
-
-void handler(int sig) {
-    puts("Handler called\n"); 
-    exit(-1);
-}
-
-int main(void)
-{
-    struct sigaction sa;
-    sa.sa_handler = handler;
-    sa.sa_flags = 0;
-    sa.sa_restorer = NULL;
-    sa.sa_mask = 0;
-    
-    sigaction(2, &sa, 0); // 2 == SIGINT
-    
-    // To test ctrl+c
-    char buf[10];
-    read(0, buf, 10);
-    
-    return 0;
-}
-*/
